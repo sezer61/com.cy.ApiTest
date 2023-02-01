@@ -18,4 +18,36 @@ describe('Api Test', () => {
                 
             })
         })
+        it('Status -1 ', () => {
+            cy.request('https://pokeapi.co/api/v2/pokemon/1')
+            .its('status')
+            .should('eq',200)
+    
+        })
+            it('Status -2 ', () => {
+                cy.request({
+                    url:'https://pokeapi.co/api/v2/pokemon/1',
+                    method:'GET'
+                }).then((response) => {
+                    expect(response.status).to.eq(200)
+                
+                    
+                })
+            })
+            it('Body -1 ', () => {
+                cy.request('https://pokeapi.co/api/v2/pokemon/1')
+                
+                .its('body')
+                .should('include',{name:'bulbasaur'})
+        
+            })
+                it('Bdy -2 ', () => {
+                    cy.request({
+                        url:'https://pokeapi.co/api/v2/pokemon/1',
+                        method:'GET'
+                    }).then((response) => {
+                        expect(response.body).to.be.include({name:'bulbasaur'})
+                        
+                    })
+                })
 })
