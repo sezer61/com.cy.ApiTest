@@ -1,5 +1,6 @@
 /// <reference types="Cypress"/>
 
+
 const dataJson=require('../../fixtures/createus.json')
 
 describe('post user request',()=>{
@@ -13,36 +14,31 @@ describe('post user request',()=>{
         for(var i=0; i<10; i++)
         randomText+=pattern.charAt(Math.floor(Math.random() * pattern.length));
         testEmail=randomText+"@gmail.com"
+
         cy.fixture('createus').then((payload)=>{
-
-        
         cy.request({
-
-
-
 
             method: 'POST',
             url: 'https://gorest.co.in/public/v2/users',
             headers: { 'Authorization':'Bearer ' + accessToken 
             },
             body:{
-                "name": dataJson.name,
-                "gender": dataJson.gender,
+                "name": payload.name,
+                "gender": payload.gender,
                 "email": testEmail,
-                "status": dataJson.status
+                "status": payload.status
             }
 
-
-        
-
         }).then((res)=>{
+            cy.log(JSON.stringify(res))
             expect(res.status).to.eq(201)
             expect(res.body).has.property('email',testEmail)
-            expect(res.body).has.property('name',dataJson.name)
-            expect(res.body).has.property('status',dataJson.status)
-            expect(res.body).has.property('gender',dataJson.gender)
+            expect(res.body).has.property('name',payload.name)
+            expect(res.body).has.property('status',payload.status)
+            expect(res.body).has.property('gender',payload.gender)
+        
         })
+            
     })
 })
-
 })
